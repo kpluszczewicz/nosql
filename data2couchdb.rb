@@ -1,8 +1,12 @@
+# 2011 Kamil Pluszczewicz k.pluszczewicz at gmail.com
+# This programme gets file with json records and put them into couchdb
+#
+# USAGE:
+# $: data2couch datafile couchdbserver
+
 require 'rubygems'
 require 'net/http'
 require 'digest/sha1'
-
-Gem.path.push "/home/studinf/kpluszcz/.gems"
 
 module Couch
 
@@ -47,15 +51,19 @@ module Couch
 
     def handle_error(req, res)
       e = RuntimeError.new("#{res.code}:#{res.message}\nMETHOD:#{req.method}\nURI:#{req.path}\n#{res.body}")
-      raise e
+      #raise e
     end
   end
 end
 
-server = Couch::Server.new("sigma.ug.edu.pl", "14017")
-server.put("/kpluszcz_test/", "")
 
-twitts = File.new "chunk.json"
+twitts = File.new ARGV[0]
+db_url = ARGV[1]
+
+uri = URI.parse db_url
+
+server = Couch::Server.new(uri.host, uri.port)
+server.put(uri.path, "")
 
 twitts.each_line { |line|
 	doc_id = Digest::SHA1.hexdigest line
