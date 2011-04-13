@@ -41,7 +41,7 @@ Przechodząc pod [adres](http://sigma.ug.edu.pl:14017/infochimps/_design/app/_li
 	http://sigma.ug.edu.pl:14017/infochimps/_design/app/_list/tweets/by_each_day?reduce=true&group_level=1
 
 ### Mapa google
-Przechodząc pod [adres](http://sigma.ug.edu.pl:14017/infochimps/_design/app/_list/tweets/by_user?reduce=true&group_level=1) można zobaczyć sobie jak wygląda rozmieszczenie osób piszących na twitterze na mapie świata.
+Przechodząc pod [adres](http://sigma.ug.edu.pl:14017/infochimps/_design/app/_list/tweets_on_map/by_user?reduce=true&group_level=1) można zobaczyć sobie jak wygląda rozmieszczenie osób piszących na twitterze na mapie świata.
 
 	http://sigma.ug.edu.pl:14017/infochimps/_design/app/_list/tweets_on_map/by_user?reduce=true&group_level=1&limit=1000
 
