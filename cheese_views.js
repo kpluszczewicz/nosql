@@ -33,7 +33,11 @@ des_doc.views.by_day_of_week = {
 
 des_doc.views.by_user = {
     map: function(doc) {
-	     emit(doc.user.name, null);
+	     emit({ 
+		 "user": doc.user.name,
+	     "lat": doc.geo.coordinates[0], 
+	     "lng": doc.geo.coordinates[1]
+	     }, 1);
 	 },
     reduce: "_count"
 }
@@ -94,7 +98,30 @@ des_doc.lists.tweets = function(head,req) {
     return html;
 }
 
+des_doc.lists.tweets_on_map = function(head, req) {
+    var mustache = require('templates/mustache');
+    var template = this.templates['tweets_on_map.html'];
+
+    var row;
+    var rows = [];
+    
+    start({
+	"headers" : {
+	    "Content-Type": "text/html"
+	}
+    });
+
+    while(row = getRow()) {
+	rows.push({ lat: row.key['lat'], lng: row.key['lng'], title: row.key['user']  });
+    };
+
+    var view = {rows: rows};
+    var html = mustache.to_html(template, view);
+    return html;
+}
+
 des_doc.templates.mustache = fs.readFileSync('templates/mustache.js', 'UTF-8');
 des_doc.templates['tweets_flot.html'] = fs.readFileSync('templates/tweets_flot.html.mustache', 'UTF-8');
+des_doc.templates['tweets_on_map.html'] = fs.readFileSync('templates/tweets_on_map.html.mustache', 'UTF-8');
 
 // couchapp push cheese_views.js http://sigma.ug.edu.pl:14017/infochimps/
