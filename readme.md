@@ -18,7 +18,7 @@ Skrypt posłużył mi do stworzenia bazy opisanej w pierwszym punkcie
 W pliku cheese\_views.js znajduje się kilka widoków działających na bazie *infochimps* na moim couchdb.
 
 - **by\_each\_day**  
-  W tym widoku dostajemy klucze postaci [a,b,c], gdzie a oznacza numer miesiąca, b numer dnia (1-31), a c numer dnia tygodnia (0-6).	
+  W tym widoku dostajemy klucze, które są znacznikami czasowymi danego dnia, w którym został zanotowany wpis na twitterze
 - **by\_day\_of\_week**  
   Ten widok pozwala podsumować dane dla każdego dnia tygodnia (poniedziałek, wtorek...)
 - **by\_user**  
@@ -34,3 +34,5 @@ Plik cheese\_views.js zawiera także parę funkcji listowych:
   sortowanie po kluczach
 
 ## Wizualizacja danych
+
+Przechodząc pod [adres](http://sigma.ug.edu.pl:14017/infochimps/_design/app/_list/tweets/by_each_day?reduce=true&group_level=1) można obejrzeć wykres częstotliwości wpisów dla kolejnych dni.

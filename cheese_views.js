@@ -1,8 +1,11 @@
-var couchapp = require('couchapp');
+var couchapp = require('couchapp'),
+    fs = require('fs');
+
 des_doc = {
     _id: '_design/app',
     views: {},
-    lists: {}
+    lists: {},
+    templates: {}
 }
 
 module.exports = des_doc;
@@ -13,7 +16,9 @@ des_doc.views.by_each_day = {
 	     var month = date.getMonth();
 	     var day = date.getDate();
 	     var dayOfWeek = date.getDay();
-	     emit([month, day, dayOfWeek], null);
+	     var timestamp = new Date(2010, month, day, 0,0,0);
+	     timestamp = timestamp.getTime();
+	     emit(timestamp, null);
 	 },
     reduce: "_count"
 }
@@ -46,6 +51,7 @@ des_doc.lists.all = function(head, req) {
     }
 }
 
+
 // sortowanie po wartościach
 des_doc.lists.best_writers = function(head, req) {
     var row;
@@ -67,5 +73,28 @@ des_doc.lists.best_writers = function(head, req) {
 	send("\n");
     });
 }
+
+// wąsata wizualizacja
+des_doc.lists.tweets = function(head,req) {
+    var mustache = require('templates/mustache');
+    var template = this.templates['tweets_flot.html'];
+
+    var row;
+    var rows = [];
+    start({
+	"headers" : {
+	    "Content-Type": "text/html"
+	}
+    });
+    while(row = getRow()) {
+	rows.push({key: row.key, value: row.value});
+    }
+    var view = {rows: rows};
+    var html = mustache.to_html(template,view);
+    return html;
+}
+
+des_doc.templates.mustache = fs.readFileSync('templates/mustache.js', 'UTF-8');
+des_doc.templates['tweets_flot.html'] = fs.readFileSync('templates/tweets_flot.html.mustache', 'UTF-8');
 
 // couchapp push cheese_views.js http://sigma.ug.edu.pl:14017/infochimps/

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang=pl>
+  <head>
+    <meta charset=utf-8>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://flot.googlecode.com/svn/trunk/jquery.flot.js" type="text/javascript" charset="utf-8"></script>
+
+    <link rel="stylesheet" href="/infochimps/_design/app/application.css">
+    <title>Recent Tweets</title>
+  </head>
+<body>
+    <h1>Suma wpisów dzień po dniu:</h1>
+    <div id="placeholder" style="width:1200px;height:300px"></div>
+
+    <script>
+	$(function () {
+	    var days_in_month = [];
+	    {{#rows}}
+	    days_in_month.push([{{key}},{{value}}]);
+	    {{/rows}}
+
+	    $.plot($("#placeholder"), [ days_in_month ], { xaxis : { mode : "time", timeformat: "%m/%d", tickSize: [1, "day"] } });
+	});
+    </script>
+
+</body>
+</html>
